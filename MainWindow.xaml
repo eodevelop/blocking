@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <StackPanel>
+            <ListBox Name="urlListBox" Width="700" Height="100"/>
+        </StackPanel>
     </Grid>
 </Window>
