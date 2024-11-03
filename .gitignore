@@ -1,1 +1,47 @@
-.vs/
+# Build results
+bin/
+obj/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Mono Auto Generated Files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# VS Code workspace
+.vscode/
+
+# Visual Studio Code
+.vscode/*
+
+# Rider
+.idea/
+*.sln.iml
+
+# ASP.NET Scaffolding
+.scaffolding
+
+# DotNet console history
+.dotnet_user_profile/
+
+# Visual Studio profiler
+*.vsp
+*.vspx
+*.sap
+
+# IIS Express
+/.vs/
