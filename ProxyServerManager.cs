@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Titanium.Web.Proxy.EventArguments;
 using Titanium.Web.Proxy.Models;
 using Titanium.Web.Proxy;
+using System.Windows;
+using Titanium.Web.Proxy.Network;
 
 namespace Blocking
 {
@@ -18,14 +20,34 @@ namespace Blocking
         {
             proxyServer = new ProxyServer();
 
-            // HTTPS 지원을 위해 루트 인증서 설치
-            proxyServer.CertificateManager.EnsureRootCertificate();
+            // 인증서 엔진 설정 (필요 시)
+            proxyServer.CertificateManager.CertificateEngine = CertificateEngine.BouncyCastle; // 또는 CertificateEngine.DefaultWindows
+
+            // 인증서 생성 및 설치
+            try
+            {
+                // 루트 인증서 생성
+                bool success = proxyServer.CertificateManager.CreateRootCertificate();
+                if (!success)
+                {
+                    MessageBox.Show("루트 인증서 생성에 실패했습니다.", "인증서 오류", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    // 루트 인증서를 신뢰할 수 있는 루트 인증 기관에 설치
+                    proxyServer.CertificateManager.TrustRootCertificate(true);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"인증서 설치 중 오류 발생: {ex.Message}", "인증서 오류", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
             // 요청 처리 이벤트 핸들러 설정
             proxyServer.BeforeRequest += OnRequest;
 
             // 프록시 엔드포인트 설정
-            var explicitEndPoint = new ExplicitProxyEndPoint(System.Net.IPAddress.Any, 8080, true);
+            var explicitEndPoint = new ExplicitProxyEndPoint(System.Net.IPAddress.Any, 8000, true);
             proxyServer.AddEndPoint(explicitEndPoint);
 
             // 프록시 서버 시작
